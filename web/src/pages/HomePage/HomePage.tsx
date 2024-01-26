@@ -1,13 +1,18 @@
+import { useState } from 'react'
+
 import { Form, InputField, Submit } from '@redwoodjs/forms'
 import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 const HomePage = () => {
+  const [data, setData] = useState([])
+
   const fetchData = async (slug) => {
     try {
       const response = await fetch(`http://api.are.na/v2/channels/${slug}`)
       const result = await response.json()
-      console.log(result)
+      setData(result.contents)
+      console.log(result.contents)
     } catch (error) {
       console.error(error)
     }
@@ -16,8 +21,6 @@ const HomePage = () => {
   const onSubmit = ({ channelLink }) => {
     const splitLink = channelLink.split('/')
     const slug = splitLink[splitLink.length - 1]
-    console.log(slug)
-
     fetchData(slug)
   }
 
@@ -33,6 +36,13 @@ const HomePage = () => {
         <InputField name="channelLink"></InputField>
         <Submit>GO</Submit>
       </Form>
+      {data.length > 0 ? (
+        data.map((item, index) => (
+          <img src={item.image.thumb.url} alt="" key={index}></img>
+        ))
+      ) : (
+        <div></div>
+      )}
     </>
   )
 }
