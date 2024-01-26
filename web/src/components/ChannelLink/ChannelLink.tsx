@@ -25,8 +25,10 @@ const ChannelLink = () => {
   return (
     <>
       <Form onSubmit={onSubmit}>
-        <label>Channel Link/Slug</label>
-        <InputField name="channelLink"></InputField>
+        <label htmlFor="channel-link">
+          Channel Link/Slug
+          <InputField name="channelLink" id="channel-link"></InputField>
+        </label>
         <Submit>GO</Submit>
       </Form>
       {data.length > 0 ? (
