@@ -3,8 +3,20 @@ import { Link, routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 const HomePage = () => {
-  const onSubmit = () => {
-    console.log('hello')
+  const fetchData = async (data) => {
+    try {
+      const response = await fetch(
+        `http://api.are.na/v2/channels/${data.channelLink}`
+      )
+      const result = await response.json()
+      console.log(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const onSubmit = (link) => {
+    fetchData(link)
   }
 
   return (
@@ -16,7 +28,7 @@ const HomePage = () => {
       <Link to={routes.about()}>ABOUT</Link>
       <Form onSubmit={onSubmit}>
         <label>Channel Link</label>
-        <InputField name="input"></InputField>
+        <InputField name="channelLink"></InputField>
         <Submit>GO</Submit>
       </Form>
     </>
