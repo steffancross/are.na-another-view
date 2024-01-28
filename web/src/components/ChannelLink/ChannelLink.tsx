@@ -1,19 +1,21 @@
 import { useState } from 'react'
 
+import Arena from 'are.na'
+
 import { Form, InputField, Submit } from '@redwoodjs/forms'
 
 const ChannelLink = () => {
   const [data, setData] = useState([])
 
   const fetchData = async (slug) => {
-    try {
-      const response = await fetch(`http://api.are.na/v2/channels/${slug}`)
-      const result = await response.json()
-      setData(result.contents)
-      console.log(result)
-    } catch (error) {
-      console.error(error)
-    }
+    const arena = new Arena()
+    arena
+      .channel(slug)
+      .get()
+      .then((chan) => setData(chan.contents))
+      .catch((err) => console.log(err))
+
+    console.log(data)
   }
 
   const onSubmit = ({ channelLink }) => {
