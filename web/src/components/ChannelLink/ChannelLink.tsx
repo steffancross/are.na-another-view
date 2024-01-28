@@ -11,8 +11,8 @@ const ChannelLink = () => {
     const arena = new Arena()
     arena
       .channel(slug)
-      .get()
-      .then((chan) => setData(chan.contents))
+      .contents({ per: 100 })
+      .then((chan) => setData(chan))
       .catch((err) => console.log(err))
 
     console.log(data)
