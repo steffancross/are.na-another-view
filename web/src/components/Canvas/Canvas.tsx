@@ -2,12 +2,10 @@ import { useRef, useEffect } from 'react'
 
 import { fabric } from 'fabric'
 
-const Canvas = () => {
-  const data = [
-    'https://upload.wikimedia.org/wikipedia/commons/2/27/Red_square.svg',
-    'https://upload.wikimedia.org/wikipedia/commons/2/27/Red_square.svg',
-  ]
+import { useImageStore } from 'src/store'
 
+const Canvas = () => {
+  const data = useImageStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -19,7 +17,7 @@ const Canvas = () => {
     })
 
     data.map((item) => {
-      fabric.Image.fromURL(item, function (oImg) {
+      fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
         canvas.add(oImg)
       })
     })

@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import Arena from 'are.na'
 
 import { Form, InputField, Submit } from '@redwoodjs/forms'
@@ -33,13 +31,6 @@ const ChannelLink = () => {
         </label>
         <Submit>GO</Submit>
       </Form>
-      {/* {data.length > 0 ? (
-        data.map((item, index) => (
-          <img src={item.image.thumb.url} alt="" key={index}></img>
-        ))
-      ) : (
-        <div></div>
-      )} */}
     </>
   )
 }
