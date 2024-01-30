@@ -11,8 +11,8 @@ const HomePage = () => {
 
       <h1>Another Viewer</h1>
       {/* <Link to={routes.about()}>ABOUT</Link> */}
-      {/* <ChannelLink /> */}
-      <Canvas />
+      <ChannelLink />
+      {/* <Canvas /> */}
     </>
   )
 }

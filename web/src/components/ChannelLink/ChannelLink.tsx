@@ -4,8 +4,10 @@ import Arena from 'are.na'
 
 import { Form, InputField, Submit } from '@redwoodjs/forms'
 
+import { useImageStore } from 'src/store'
+
 const ChannelLink = () => {
-  const [data, setData] = useState([])
+  const setData = useImageStore((state) => state.setData)
 
   const fetchData = async (slug) => {
     const arena = new Arena()
@@ -14,8 +16,6 @@ const ChannelLink = () => {
       .contents({ per: 100 })
       .then((chan) => setData(chan))
       .catch((err) => console.log(err))
-
-    console.log(data)
   }
 
   const onSubmit = ({ channelLink }) => {
@@ -33,13 +33,13 @@ const ChannelLink = () => {
         </label>
         <Submit>GO</Submit>
       </Form>
-      {data.length > 0 ? (
+      {/* {data.length > 0 ? (
         data.map((item, index) => (
           <img src={item.image.thumb.url} alt="" key={index}></img>
         ))
       ) : (
         <div></div>
-      )}
+      )} */}
     </>
   )
 }
