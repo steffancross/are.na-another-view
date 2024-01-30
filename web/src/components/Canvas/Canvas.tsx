@@ -9,16 +9,23 @@ const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
+    if (data.length === 0) return
+
     const width = window.innerWidth
     const height = window.innerHeight
+
     const canvas = new fabric.Canvas(canvasRef.current, {
       height: height,
       width: width,
     })
 
-    data.map((item) => {
+    canvas.clear()
+
+    data.forEach((item) => {
       fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
         canvas.add(oImg)
+        oImg.set({ left: 100, top: 100 })
+        canvas.renderAll()
       })
     })
 
@@ -55,12 +62,12 @@ const Canvas = () => {
         this.lastPosY = e.clientY
       }
     })
-    canvas.on('mouse:up', function (opt) {
+    canvas.on('mouse:up', function () {
       this.setViewportTransform(this.viewportTransform)
       this.isDragging = false
       this.selection = true
     })
-  })
+  }, [data])
 
   return <canvas ref={canvasRef} />
 }
