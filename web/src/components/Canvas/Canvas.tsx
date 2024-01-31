@@ -21,10 +21,11 @@ const Canvas = () => {
 
     canvas.clear()
 
-    data.forEach((item) => {
+    data.forEach((item, index) => {
       fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
+        const left = index * 10
         canvas.add(oImg)
-        oImg.set({ left: 100, top: 100 })
+        oImg.set({ left: 100 + left, top: 100 })
         canvas.renderAll()
       })
     })
@@ -67,6 +68,10 @@ const Canvas = () => {
       this.isDragging = false
       this.selection = true
     })
+
+    return () => {
+      canvas.dispose()
+    }
   }, [data])
 
   return <canvas ref={canvasRef} />
