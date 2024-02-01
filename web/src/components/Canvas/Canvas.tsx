@@ -9,13 +9,17 @@ const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const placeImages = (canvas: fabric.Canvas, data: any[]) => {
+    const stagger = 10
+    let currentLeft = 100
+    const currentTop = 100
+
     canvas.clear()
 
-    data.forEach((item, index) => {
+    data.forEach((item) => {
       fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
-        const left = index * 10
         canvas.add(oImg)
-        oImg.set({ left: 100 + left, top: 100 })
+        oImg.set({ left: currentLeft, top: currentTop })
+        currentLeft += oImg.width + stagger
         canvas.renderAll()
       })
     })
@@ -33,16 +37,6 @@ const Canvas = () => {
     })
 
     placeImages(canvas, data)
-    // canvas.clear()
-
-    // data.forEach((item, index) => {
-    //   fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
-    //     const left = index * 10
-    //     canvas.add(oImg)
-    //     oImg.set({ left: 100 + left, top: 100 })
-    //     canvas.renderAll()
-    //   })
-    // })
 
     // Zooming with mousewheel
     canvas.on('mouse:wheel', function (opt) {
