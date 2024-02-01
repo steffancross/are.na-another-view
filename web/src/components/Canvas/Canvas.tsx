@@ -8,19 +8,37 @@ const Canvas = () => {
   const data = useImageStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const placeImages = (canvas: fabric.Canvas, data: any[]) => {
-    const stagger = 10
-    let currentLeft = 100
-    const currentTop = 100
+  const placeImages = (canvas: fabric.Canvas, imageArray: any[]) => {
+    const staggerDistance = 10
+    const amountPerRow = 10
+    const initialLeft = 100
+    const initialTop = 100
+
+    let currentLeft = initialLeft
+    let currentTop = initialTop
+    let tallestImgInRow = 0
+    let imagesInRow = 0
 
     canvas.clear()
 
-    data.forEach((item) => {
+    imageArray.forEach((item) => {
       fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
+        // checks if there's X images in row, if there is, starts a new row
+        if (imagesInRow === amountPerRow) {
+          currentLeft = initialLeft
+          currentTop += tallestImgInRow + staggerDistance
+          tallestImgInRow = 0
+          imagesInRow = 0
+        }
+
         canvas.add(oImg)
         oImg.set({ left: currentLeft, top: currentTop })
-        currentLeft += oImg.width + stagger
         canvas.renderAll()
+
+        // moves the placement point for the next image so they don't overlap
+        currentLeft += oImg.width + staggerDistance
+        tallestImgInRow = Math.max(oImg.height, tallestImgInRow)
+        imagesInRow += 1
       })
     })
   }
@@ -38,7 +56,7 @@ const Canvas = () => {
 
     placeImages(canvas, data)
 
-    // Zooming with mousewheel
+    // zooming with mousewheel
     canvas.on('mouse:wheel', function (opt) {
       const delta = opt.e.deltaY
       let zoom = canvas.getZoom()
@@ -50,7 +68,7 @@ const Canvas = () => {
       opt.e.stopPropagation()
     })
 
-    // Panning holding alt
+    // panning holding alt
     canvas.on('mouse:down', function (opt) {
       const evt = opt.e
       if (evt.altKey === true) {
