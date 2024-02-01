@@ -8,6 +8,19 @@ const Canvas = () => {
   const data = useImageStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  const placeImages = (canvas: fabric.Canvas, data: any[]) => {
+    canvas.clear()
+
+    data.forEach((item, index) => {
+      fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
+        const left = index * 10
+        canvas.add(oImg)
+        oImg.set({ left: 100 + left, top: 100 })
+        canvas.renderAll()
+      })
+    })
+  }
+
   useEffect(() => {
     if (data.length === 0) return
 
@@ -19,16 +32,17 @@ const Canvas = () => {
       width: width,
     })
 
-    canvas.clear()
+    placeImages(canvas, data)
+    // canvas.clear()
 
-    data.forEach((item, index) => {
-      fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
-        const left = index * 10
-        canvas.add(oImg)
-        oImg.set({ left: 100 + left, top: 100 })
-        canvas.renderAll()
-      })
-    })
+    // data.forEach((item, index) => {
+    //   fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
+    //     const left = index * 10
+    //     canvas.add(oImg)
+    //     oImg.set({ left: 100 + left, top: 100 })
+    //     canvas.renderAll()
+    //   })
+    // })
 
     // Zooming with mousewheel
     canvas.on('mouse:wheel', function (opt) {
