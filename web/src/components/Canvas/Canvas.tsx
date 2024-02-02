@@ -22,24 +22,27 @@ const Canvas = () => {
     canvas.clear()
 
     imageArray.forEach((item) => {
-      fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
-        // checks if there's X images in row, if there is, starts a new row
-        if (imagesInRow === amountPerRow) {
-          currentLeft = initialLeft
-          currentTop += tallestImgInRow + staggerDistance
-          tallestImgInRow = 0
-          imagesInRow = 0
-        }
+      // some blocks may not have images, for now just ignoring them
+      if (item.image && item.image.thumb && item.image.thumb.url) {
+        fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
+          // checks if there's X images in row, if there is, starts a new row
+          if (imagesInRow === amountPerRow) {
+            currentLeft = initialLeft
+            currentTop += tallestImgInRow + staggerDistance
+            tallestImgInRow = 0
+            imagesInRow = 0
+          }
 
-        canvas.add(oImg)
-        oImg.set({ left: currentLeft, top: currentTop })
-        canvas.renderAll()
+          canvas.add(oImg)
+          oImg.set({ left: currentLeft, top: currentTop })
+          canvas.renderAll()
 
-        // moves the placement point for the next image so they don't overlap
-        currentLeft += oImg.width + staggerDistance
-        tallestImgInRow = Math.max(oImg.height, tallestImgInRow)
-        imagesInRow += 1
-      })
+          // moves the placement point for the next image so they don't overlap
+          currentLeft += oImg.width + staggerDistance
+          tallestImgInRow = Math.max(oImg.height, tallestImgInRow)
+          imagesInRow += 1
+        })
+      }
     })
   }
 
