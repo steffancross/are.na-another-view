@@ -2,4 +2,12 @@ body {
   margin: 0 ;
 }
 
-h1 { position: fixed;}
+h1 {
+  position: fixed;
+  z-index: 999;
+}
+
+form {
+  position: fixed;
+  z-index: 999;
+}

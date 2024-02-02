@@ -34,8 +34,18 @@ const Canvas = () => {
           }
 
           canvas.add(oImg)
-          oImg.set({ left: currentLeft, top: currentTop })
-          canvas.renderAll()
+          // location to place image
+          oImg.set({
+            left: currentLeft,
+            top: currentTop,
+          })
+          // makes it so it can only be proportionally scale
+          oImg.setControlsVisibility({
+            mb: false,
+            ml: false,
+            mr: false,
+            mt: false,
+          })
 
           // moves the placement point for the next image so they don't overlap
           currentLeft += oImg.width + staggerDistance
