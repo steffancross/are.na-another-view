@@ -101,6 +101,9 @@ const Canvas = () => {
       }
       const zoom = (canvasDimension / groupDimension) * 0.7
       canvas.zoomToPoint({ x: canvas.width / 2, y: canvas.height / 2 }, zoom)
+
+      // have to ungroup or all control points will be messed up
+      group.ungroupOnCanvas()
     })()
 
     // zooming with mousewheel
