@@ -77,7 +77,30 @@ const Canvas = () => {
 
     ;(async () => {
       await placeImages(canvas, data)
-      console.log(canvas.getObjects())
+
+      canvas.setZoom(1)
+      // code from https://stackoverflow.com/questions/63092376/fabric-js-transform-and-zoom-canvas-to-fit-all-objects-in-viewport
+      const group = new fabric.Group(canvas.getObjects())
+      console.log(group)
+      // find center and pan to it
+      const x = group.left + group.width / 2 - canvas.width / 2
+      const y = group.top + group.height / 2 - canvas.height / 2
+      canvas.absolutePan({ x: x, y: y })
+
+      // decide whether height or width is main scaling
+      const heightDist = canvas.getHeight() - group.height
+      const widthDist = canvas.getWidth() - group.width
+      let groupDimension = 0
+      let canvasDimension = 0
+      if (heightDist < widthDist) {
+        groupDimension = group.height
+        canvasDimension = canvas.getHeight()
+      } else {
+        groupDimension = group.width
+        canvasDimension = canvas.getWidth()
+      }
+      const zoom = (canvasDimension / groupDimension) * 0.7
+      canvas.zoomToPoint({ x: canvas.width / 2, y: canvas.height / 2 }, zoom)
     })()
 
     // zooming with mousewheel
