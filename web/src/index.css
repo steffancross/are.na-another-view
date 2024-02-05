@@ -34,3 +34,17 @@ form {
   position: fixed;
   z-index: 999;
 }
+
+.guide-closed {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}
+
+.guide-open {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}

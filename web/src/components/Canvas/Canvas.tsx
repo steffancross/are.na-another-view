@@ -84,7 +84,7 @@ const Canvas = () => {
     // panning holding alt
     canvas.on('mouse:down', function (opt) {
       const evt = opt.e
-      if (evt.altKey === true) {
+      if (evt.shiftKey === true) {
         this.isDragging = true
         this.selection = false
         this.lastPosX = evt.clientX
