@@ -8,7 +8,7 @@ const Canvas = () => {
   const data = useImageStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const placeImages = (canvas: fabric.Canvas, imageArray: any[]) => {
+  const placeImages = async (canvas: fabric.Canvas, imageArray: any[]) => {
     const staggerDistance = 10
     const amountPerRow = 10
     const initialLeft = 100
@@ -21,39 +21,47 @@ const Canvas = () => {
 
     canvas.clear()
 
-    imageArray.forEach((item) => {
-      // some blocks may not have images, for now just ignoring them
-      if (item.image && item.image.thumb && item.image.thumb.url) {
-        fabric.Image.fromURL(item.image.thumb.url, function (oImg) {
-          // checks if there's X images in row, if there is, starts a new row
-          if (imagesInRow === amountPerRow) {
-            currentLeft = initialLeft
-            currentTop += tallestImgInRow + staggerDistance
-            tallestImgInRow = 0
-            imagesInRow = 0
-          }
+    await Promise.all(
+      imageArray.map((item) => {
+        // some blocks may not have images, for now just ignoring them
+        if (item.image && item.image.display && item.image.display.url) {
+          return new Promise<void>((resolve) => {
+            fabric.Image.fromURL(item.image.display.url, function (oImg) {
+              // checks if there's X images in row, if there is, starts a new row
+              if (imagesInRow === amountPerRow) {
+                currentLeft = initialLeft
+                currentTop += tallestImgInRow + staggerDistance
+                tallestImgInRow = 0
+                imagesInRow = 0
+              }
 
-          canvas.add(oImg)
-          // location to place image
-          oImg.set({
-            left: currentLeft,
-            top: currentTop,
-          })
-          // makes it so it can only be proportionally scale
-          oImg.setControlsVisibility({
-            mb: false,
-            ml: false,
-            mr: false,
-            mt: false,
-          })
+              // location to place image
+              oImg.set({
+                left: currentLeft,
+                top: currentTop,
+              })
 
-          // moves the placement point for the next image so they don't overlap
-          currentLeft += oImg.width + staggerDistance
-          tallestImgInRow = Math.max(oImg.height, tallestImgInRow)
-          imagesInRow += 1
-        })
-      }
-    })
+              // makes it so it can only be proportionally scaled
+              oImg.setControlsVisibility({
+                mb: false,
+                ml: false,
+                mr: false,
+                mt: false,
+              })
+
+              canvas.add(oImg)
+
+              // moves the placement point for the next image so they don't overlap
+              currentLeft += oImg.width + staggerDistance
+              tallestImgInRow = Math.max(oImg.height, tallestImgInRow)
+              imagesInRow += 1
+
+              resolve()
+            })
+          })
+        }
+      })
+    )
   }
 
   useEffect(() => {
@@ -67,7 +75,10 @@ const Canvas = () => {
       width: width,
     })
 
-    placeImages(canvas, data)
+    ;(async () => {
+      await placeImages(canvas, data)
+      console.log(canvas.getObjects())
+    })()
 
     // zooming with mousewheel
     canvas.on('mouse:wheel', function (opt) {

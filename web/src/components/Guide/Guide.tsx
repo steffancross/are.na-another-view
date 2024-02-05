@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Guide = () => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
 
   const setTheme = () => {
@@ -21,7 +21,7 @@ const Guide = () => {
           <p>paste a link to the channel you want to explore</p>
           <p>Scroll to zoom in and out on mouse</p>
           <p>
-            hold <em>alt</em> and drag to pan
+            hold <em>shift</em> and drag to pan
           </p>
           <div>
             <button onClick={setTheme}>light/dark</button>
