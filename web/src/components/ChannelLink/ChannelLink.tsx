@@ -2,10 +2,10 @@ import Arena from 'are.na'
 
 import { Form, InputField, Submit } from '@redwoodjs/forms'
 
-import { useImageStore } from 'src/stores/store'
+import { useStore } from 'src/stores/store'
 
 const ChannelLink = () => {
-  const setData = useImageStore((state) => state.setData)
+  const setData = useStore((state) => state.setData)
 
   const fetchData = async (slug) => {
     const arena = new Arena()

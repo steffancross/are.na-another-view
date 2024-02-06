@@ -2,10 +2,10 @@ import { useRef, useEffect } from 'react'
 
 import { fabric } from 'fabric'
 
-import { useImageStore } from 'src/stores/store'
+import { useStore } from 'src/stores/store'
 
 const Canvas = () => {
-  const data = useImageStore((state) => state.data)
+  const data = useStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const placeImages = async (canvas: fabric.Canvas, imageArray: any[]) => {

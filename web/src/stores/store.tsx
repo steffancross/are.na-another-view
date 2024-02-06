@@ -1,14 +1,11 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-type ImageState = {
-  data: Array<any>
-  setData: (data: Array<any>) => void
-}
+import { useImageStore } from './imageSlice'
+import { ImageState } from './imageSlice'
 
-export const useImageStore = create<ImageState>()(
-  devtools((set) => ({
-    data: [],
-    setData: (data) => set({ data }),
+export const useStore = create<ImageState>()(
+  devtools((...a) => ({
+    ...useImageStore(...a),
   }))
 )
