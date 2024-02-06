@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react'
 
 import { fabric } from 'fabric'
 
-import { useImageStore } from 'src/store'
+import { useImageStore } from 'src/stores/store'
 
 const Canvas = () => {
   const data = useImageStore((state) => state.data)
@@ -81,7 +81,7 @@ const Canvas = () => {
       canvas.setZoom(1)
       // code from https://stackoverflow.com/questions/63092376/fabric-js-transform-and-zoom-canvas-to-fit-all-objects-in-viewport
       const group = new fabric.Group(canvas.getObjects())
-      console.log(group)
+
       // find center and pan to it
       const x = group.left + group.width / 2 - canvas.width / 2
       const y = group.top + group.height / 2 - canvas.height / 2
