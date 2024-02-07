@@ -5,7 +5,7 @@ export interface ImageState {
   setData: (data: Array<any>) => void
 }
 
-export const useImageStore: StateCreator<ImageState> = (set) => ({
+export const createImageSlice: StateCreator<ImageState> = (set) => ({
   data: [],
   setData: (data) => set({ data }),
 })
