@@ -2,11 +2,14 @@ import { useRef, useEffect } from 'react'
 
 import { fabric } from 'fabric'
 
-import { useImageStore } from 'src/store'
+import { useStore } from 'src/stores/store'
 
 const Canvas = () => {
-  const data = useImageStore((state) => state.data)
+  const data = useStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const setLoadingWheel = useStore((state) => state.setLoadingWheel)
+  const setImagesLoaded = useStore((state) => state.setImagesLoaded)
+  const showCanvas = useStore((state) => state.imagesLoaded)
 
   const placeImages = async (canvas: fabric.Canvas, imageArray: any[]) => {
     const staggerDistance = 10
@@ -81,7 +84,7 @@ const Canvas = () => {
       canvas.setZoom(1)
       // code from https://stackoverflow.com/questions/63092376/fabric-js-transform-and-zoom-canvas-to-fit-all-objects-in-viewport
       const group = new fabric.Group(canvas.getObjects())
-      console.log(group)
+
       // find center and pan to it
       const x = group.left + group.width / 2 - canvas.width / 2
       const y = group.top + group.height / 2 - canvas.height / 2
@@ -101,6 +104,11 @@ const Canvas = () => {
       }
       const zoom = (canvasDimension / groupDimension) * 0.7
       canvas.zoomToPoint({ x: canvas.width / 2, y: canvas.height / 2 }, zoom)
+
+      // have to ungroup or all control points will be messed up
+      group.ungroupOnCanvas()
+      setLoadingWheel(false)
+      setImagesLoaded(true)
     })()
 
     // zooming with mousewheel
@@ -145,9 +153,13 @@ const Canvas = () => {
     return () => {
       canvas.dispose()
     }
-  }, [data])
+  }, [data, setImagesLoaded, setLoadingWheel])
 
-  return <canvas ref={canvasRef} />
+  return (
+    <div style={{ display: showCanvas ? 'block' : 'none' }}>
+      <canvas ref={canvasRef} />
+    </div>
+  )
 }
 
 export default Canvas
