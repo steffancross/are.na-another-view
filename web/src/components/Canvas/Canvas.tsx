@@ -7,6 +7,9 @@ import { useStore } from 'src/stores/store'
 const Canvas = () => {
   const data = useStore((state) => state.data)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const setLoadingWheel = useStore((state) => state.setLoadingWheel)
+  const setImagesLoaded = useStore((state) => state.setImagesLoaded)
+  const showCanvas = useStore((state) => state.imagesLoaded)
 
   const placeImages = async (canvas: fabric.Canvas, imageArray: any[]) => {
     const staggerDistance = 10
@@ -104,6 +107,8 @@ const Canvas = () => {
 
       // have to ungroup or all control points will be messed up
       group.ungroupOnCanvas()
+      setLoadingWheel(false)
+      setImagesLoaded(true)
     })()
 
     // zooming with mousewheel
@@ -148,9 +153,13 @@ const Canvas = () => {
     return () => {
       canvas.dispose()
     }
-  }, [data])
+  }, [data, setImagesLoaded, setLoadingWheel])
 
-  return <canvas ref={canvasRef} />
+  return (
+    <div style={{ display: showCanvas ? 'block' : 'none' }}>
+      <canvas ref={canvasRef} />
+    </div>
+  )
 }
 
 export default Canvas
