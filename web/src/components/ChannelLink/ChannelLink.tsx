@@ -28,7 +28,7 @@ const ChannelLink = () => {
 
   return (
     <>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} autoComplete="off">
         <label htmlFor="channel-link">
           Channel Link/Slug
           <InputField name="channelLink" id="channel-link"></InputField>
