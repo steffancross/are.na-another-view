@@ -7,7 +7,7 @@ import Guide from 'src/components/Guide/Guide'
 const HomePage = () => {
   return (
     <>
-      <Metadata title="Home" description="Home page" />
+      <Metadata description="Home page" />
 
       <ChannelLink />
       <Canvas />
