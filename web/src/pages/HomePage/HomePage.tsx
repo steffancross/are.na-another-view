@@ -9,7 +9,6 @@ const HomePage = () => {
     <>
       <Metadata title="Home" description="Home page" />
 
-      <h1>Another Viewer</h1>
       <ChannelLink />
       <Canvas />
       <Guide />

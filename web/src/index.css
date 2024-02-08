@@ -26,14 +26,11 @@ body {
   color: var(--primary-color);
 }
 
-h1 {
+.input {
   position: fixed;
+  top: 10px;
   z-index: 999;
-}
-
-form {
-  position: fixed;
-  z-index: 999;
+  display: flex;
 }
 
 .guide-closed {
@@ -56,4 +53,42 @@ form {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 999;
+}
+
+
+/* SVG */
+svg {
+  width: 80px;
+}
+
+.st0 {
+  opacity: 0;
+  stroke: var(--primary-color);
+  fill: var(--primary-color);
+  stroke-miterlimit: 10;
+}
+
+.st1 {
+  stroke: var(--primary-color);
+  fill: var(--primary-color);
+  stroke-width: 0.24;
+}
+
+.st2 {
+  opacity: 0;
+  fill: var(--secondary-color);
+  stroke: var(--secondary-color);
+  stroke-miterlimit: 10;
+}
+
+.st3 {
+  fill: var(--secondary-color);
+  stroke: var(--secondary-color);
+  stroke-width: 0.24;
+}
+
+.st0, .st1, .st2, .st3 {
+  transition-property: fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in;
 }
