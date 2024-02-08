@@ -1,8 +1,13 @@
 import { useState } from 'react'
 
+import { BarLoader } from 'react-spinners'
+
+import { useStore } from 'src/stores/store'
+
 const Guide = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
+  const loading = useStore((state) => state.loadingWheel)
 
   const setTheme = () => {
     if (isDark) {
@@ -32,6 +37,10 @@ const Guide = () => {
           Guide
         </div>
       )}
+
+      {loading ? (
+        <BarLoader color={isDark ? '#fff' : '#000'} id="loading" />
+      ) : null}
     </>
   )
 }

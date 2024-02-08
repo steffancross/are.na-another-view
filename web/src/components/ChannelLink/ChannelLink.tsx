@@ -8,7 +8,6 @@ const ChannelLink = () => {
   const setData = useStore((state) => state.setData)
   const setLoadingWheel = useStore((state) => state.setLoadingWheel)
   const setImagesLoaded = useStore((state) => state.setImagesLoaded)
-  const loading = useStore((state) => state.loadingWheel)
 
   const fetchData = async (slug) => {
     const arena = new Arena()
@@ -36,7 +35,6 @@ const ChannelLink = () => {
         </label>
         <Submit>GO</Submit>
       </Form>
-      {loading ? <h1>LOADING...</h1> : null}
     </>
   )
 }
