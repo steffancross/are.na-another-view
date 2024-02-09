@@ -1,6 +1,6 @@
 import Arena from 'are.na'
 
-import { Form, InputField, Submit } from '@redwoodjs/forms'
+import { Form, InputField } from '@redwoodjs/forms'
 
 import { useStore } from 'src/stores/store'
 
@@ -23,33 +23,57 @@ const ChannelLink = () => {
   const onSubmit = ({ channelLink }) => {
     setLoadingWheel(true)
     setImagesLoaded(false)
+
+    // getting the slug from the link
     const splitLink = channelLink.split('/')
     const slug = splitLink[splitLink.length - 1]
+
+    // replacing the link in the input field with just the slug
+    event.preventDefault()
+    const inputElement = document.getElementById(
+      'channel-link'
+    ) as HTMLInputElement
+    inputElement.value = slug
+
+    // retrigger resize input
+    // Trigger the resizeInput function manually
+    resizeInput({ currentTarget: inputElement })
+
     fetchData(slug)
   }
 
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault()
-      onSubmit()
+      onSubmit({ channelLink: event.target.value })
     }
+  }
+
+  const handlePaste = (event) => {
+    const pastedText = event.clipboardData.getData('text')
+    onSubmit({ channelLink: pastedText })
+  }
+
+  const resizeInput: React.FormEventHandler<HTMLInputElement> = (event) => {
+    const input = event.currentTarget
+    input.style.width = input.value.length + 10 + 'ch'
   }
 
   return (
     <>
-      <div className="input">
+      <div className="header">
         <div>
           <Logo />
           <h4>Another View</h4>
         </div>
         <Form onSubmit={onSubmit} autoComplete="off">
-          <label htmlFor="channel-link">
-            <InputField
-              name="channelLink"
-              id="channel-link"
-              placeholder="Link to channel"
-            ></InputField>
-          </label>
+          <InputField
+            name="channelLink"
+            id="channel-link"
+            placeholder="Link to channel or slug"
+            onPaste={handlePaste}
+            onKeyDown={handleKeyPress}
+            onInput={resizeInput}
+          ></InputField>
         </Form>
       </div>
     </>
