@@ -28,19 +28,28 @@ const ChannelLink = () => {
     fetchData(slug)
   }
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      onSubmit()
+    }
+  }
+
   return (
     <>
       <div className="input">
         <div>
           <Logo />
-          <h1>Another View</h1>
+          <h4>Another View</h4>
         </div>
         <Form onSubmit={onSubmit} autoComplete="off">
           <label htmlFor="channel-link">
-            Channel Link/Slug
-            <InputField name="channelLink" id="channel-link"></InputField>
+            <InputField
+              name="channelLink"
+              id="channel-link"
+              placeholder="Link to channel"
+            ></InputField>
           </label>
-          <Submit>GO</Submit>
         </Form>
       </div>
     </>

@@ -31,6 +31,13 @@ body {
   top: 10px;
   z-index: 999;
   display: flex;
+  align-items: center;
+}
+
+.input > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .guide-closed {
@@ -58,7 +65,7 @@ body {
 
 /* SVG */
 svg {
-  width: 80px;
+  width: 60px;
 }
 
 .st0 {
