@@ -22,19 +22,25 @@ const Guide = () => {
     <>
       {isOpen ? (
         <div className="guide-open">
-          <button onClick={() => setIsOpen(false)}>X</button>
-          <p>paste a link to the channel you want to explore</p>
-          <p>Scroll to zoom in and out on mouse</p>
+          <div>
+            <button className="guide-buttons" onClick={() => setIsOpen(false)}>
+              &#x2237;
+            </button>
+          </div>
+          <p>paste a link or slug to the channel you want to explore</p>
+          <p>scroll to zoom </p>
           <p>
             hold <em>shift</em> and drag to pan
           </p>
-          <div>
-            <button onClick={setTheme}>light/dark</button>
+          <div className="guide-theme">
+            <button onClick={setTheme}>light / dark</button>
           </div>
         </div>
       ) : (
-        <div className="guide-closed" onClick={() => setIsOpen(true)}>
-          Guide
+        <div className="guide-closed">
+          <button className="guide-buttons" onClick={() => setIsOpen(true)}>
+            &#x2237;
+          </button>
         </div>
       )}
 
