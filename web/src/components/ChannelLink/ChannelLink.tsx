@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Arena from 'are.na'
 
 import { Form, InputField } from '@redwoodjs/forms'
@@ -10,36 +12,39 @@ const ChannelLink = () => {
   const setData = useStore((state) => state.setData)
   const setLoadingWheel = useStore((state) => state.setLoadingWheel)
   const setImagesLoaded = useStore((state) => state.setImagesLoaded)
+  const [fetchError, setFetchError] = useState(false)
 
   const fetchData = async (slug: string) => {
+    setLoadingWheel(true)
     const arena = new Arena()
     arena
       .channel(slug)
       .contents({ per: 100 })
       .then((chan) => setData(chan))
-      .catch((err) => console.log(err))
+      .catch(() => {
+        setLoadingWheel(false)
+        setFetchError(true)
+        setTimeout(() => {
+          setFetchError(false)
+        }, 2300)
+      })
   }
 
-  const onSubmit = ({ channelLink }) => {
-    setLoadingWheel(true)
+  const onSubmit = async ({ channelLink }) => {
     setImagesLoaded(false)
 
     // getting the slug from the link
     const splitLink = channelLink.split('/')
     const slug = splitLink[splitLink.length - 1]
 
-    // replacing the link in the input field with just the slug
+    // clearing input for next
     event.preventDefault()
     const inputElement = document.getElementById(
       'channel-link'
     ) as HTMLInputElement
-    inputElement.value = slug
+    inputElement.value = ''
 
-    // retrigger resize input
-    // Trigger the resizeInput function manually
-    resizeInput({ currentTarget: inputElement })
-
-    fetchData(slug)
+    await fetchData(slug)
   }
 
   const handleKeyPress = (event) => {
@@ -55,7 +60,7 @@ const ChannelLink = () => {
 
   const resizeInput: React.FormEventHandler<HTMLInputElement> = (event) => {
     const input = event.currentTarget
-    input.style.width = input.value.length + 10 + 'ch'
+    input.style.width = input.value.length + 'ch'
   }
 
   return (
@@ -76,6 +81,12 @@ const ChannelLink = () => {
           ></InputField>
         </Form>
       </div>
+      {fetchError ? (
+        <div className="fetch-error">
+          <p>Unable to find that channel.</p>
+          <p>Check link or it may be a private channel.</p>
+        </div>
+      ) : null}
     </>
   )
 }
