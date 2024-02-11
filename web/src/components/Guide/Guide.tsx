@@ -5,8 +5,8 @@ import { BarLoader } from 'react-spinners'
 import { useStore } from 'src/stores/store'
 
 const Guide = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(true)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isDark, setIsDark] = useState<boolean>(true)
   const loading = useStore((state) => state.loadingWheel)
 
   const setTheme = () => {

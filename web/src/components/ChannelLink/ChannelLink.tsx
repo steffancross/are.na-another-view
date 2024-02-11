@@ -12,7 +12,7 @@ const ChannelLink = () => {
   const setData = useStore((state) => state.setData)
   const setLoadingWheel = useStore((state) => state.setLoadingWheel)
   const setImagesLoaded = useStore((state) => state.setImagesLoaded)
-  const [fetchError, setFetchError] = useState(false)
+  const [fetchError, setFetchError] = useState<boolean>(false)
 
   const fetchData = async (slug: string) => {
     setLoadingWheel(true)
