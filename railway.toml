@@ -1,0 +1,7 @@
+[build]
+  command = "yarn rw deploy netlify --prisma=false --dm=false"
+  publish = "web/dist"
+
+
+[dev]
+  command = "yarn rw dev"
