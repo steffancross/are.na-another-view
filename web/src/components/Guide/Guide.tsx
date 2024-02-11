@@ -6,7 +6,7 @@ import { useStore } from 'src/stores/store'
 
 const Guide = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
   const loading = useStore((state) => state.loadingWheel)
 
   const setTheme = () => {
