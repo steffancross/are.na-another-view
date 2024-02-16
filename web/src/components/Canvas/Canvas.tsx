@@ -13,7 +13,7 @@ const Canvas = () => {
 
   const placeImages = async (canvas: fabric.Canvas, imageArray: any[]) => {
     const staggerDistance = 10
-    const amountPerRow = 10
+    const amountPerRow = Math.ceil(Math.sqrt(imageArray.length))
     const initialLeft = 100
     const initialTop = 100
 
