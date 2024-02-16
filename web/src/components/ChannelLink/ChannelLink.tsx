@@ -16,18 +16,31 @@ const ChannelLink = () => {
 
   const fetchData = async (slug: string) => {
     setLoadingWheel(true)
+    let pages: number
+    const data: Array<any> = []
     const arena = new Arena()
-    arena
-      .channel(slug)
-      .contents({ per: 100 })
-      .then((chan) => setData(chan))
-      .catch(() => {
-        setLoadingWheel(false)
-        setFetchError(true)
-        setTimeout(() => {
-          setFetchError(false)
-        }, 2300)
-      })
+
+    try {
+      // arena will only send a max 'contents' array of 100. so have to get size of channel
+      // first, then get all the content by pages of 100
+      const channelOverview = await arena.channel(slug).get()
+      pages = Math.ceil(channelOverview.length / 100)
+
+      for (let i = 1; i <= pages; i++) {
+        const content = await arena
+          .channel(slug)
+          .contents({ page: i, per: 100 })
+        data.push(...content)
+      }
+    } catch {
+      setLoadingWheel(false)
+      setFetchError(true)
+      setTimeout(() => {
+        setFetchError(false)
+      }, 2300)
+    }
+
+    setData(data)
   }
 
   const onSubmit = async ({ channelLink }) => {
