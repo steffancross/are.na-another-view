@@ -150,7 +150,33 @@ const Canvas = () => {
       this.selection = true
     })
 
+    const handleResize = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+
+      // update canvas dimensions
+      canvasRef.current.width = width
+      canvasRef.current.height = height
+
+      canvas.setDimensions({ width, height })
+
+      // place objects in updated position
+      const objects = canvas.getObjects()
+      objects.forEach((obj) => {
+        obj.set({
+          left: obj.left * (width / canvas.width),
+          top: obj.top * (height / canvas.height),
+        })
+      })
+
+      canvas.renderAll()
+    }
+
+    // listener for window resize
+    window.addEventListener('resize', handleResize)
+
     return () => {
+      window.removeEventListener('resize', handleResize)
       canvas.dispose()
     }
   }, [data, setImagesLoaded, setLoadingWheel])
