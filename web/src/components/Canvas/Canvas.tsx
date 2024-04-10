@@ -154,18 +154,25 @@ const Canvas = () => {
       const width = window.innerWidth
       const height = window.innerHeight
 
-      // Update canvas dimensions
+      // update canvas dimensions
       canvasRef.current.width = width
       canvasRef.current.height = height
 
-      // Update fabric canvas dimensions
       canvas.setDimensions({ width, height })
 
-      // Redraw the canvas content
-      placeImages(canvas, data)
+      // place objects in updated position
+      const objects = canvas.getObjects()
+      objects.forEach((obj) => {
+        obj.set({
+          left: obj.left * (width / canvas.width),
+          top: obj.top * (height / canvas.height),
+        })
+      })
+
+      canvas.renderAll()
     }
 
-    // Attach event listener for window resize
+    // listener for window resize
     window.addEventListener('resize', handleResize)
 
     return () => {
