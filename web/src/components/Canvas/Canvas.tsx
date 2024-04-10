@@ -150,7 +150,26 @@ const Canvas = () => {
       this.selection = true
     })
 
+    const handleResize = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+
+      // Update canvas dimensions
+      canvasRef.current.width = width
+      canvasRef.current.height = height
+
+      // Update fabric canvas dimensions
+      canvas.setDimensions({ width, height })
+
+      // Redraw the canvas content
+      placeImages(canvas, data)
+    }
+
+    // Attach event listener for window resize
+    window.addEventListener('resize', handleResize)
+
     return () => {
+      window.removeEventListener('resize', handleResize)
       canvas.dispose()
     }
   }, [data, setImagesLoaded, setLoadingWheel])
